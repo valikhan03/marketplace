@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package="/pb";
+
+message Product{
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    repeated string categories = 4;
+    repeated string photos = 5;
+    int32 price = 6;
+    string seller_id = 7;
+}
+
+
+message CreateProductRequest{
+    string title = 1;
+    string description = 2;
+    repeated string categories = 3;
+    repeated string photos = 4;
+    int32 price = 5;
+};
+
+message CreateProductResponse{
+    string id = 1;
+}
+
+
+message UpdateProductRequest{
+    Product product = 1;
+}
+
+message UpdateProductResponse{
+    string status = 1;
+}
+
+
+message DeleteProductRequest{
+    string product_id = 1;
+}
+
+message DeleteProductResponse{
+    string status = 2;
+}
+
+
+message GetAllProductsRequest{
+   
+}
+
+message GetAllProductsResponse{
+
+}
+
+
+
+service ProductsService{
+    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {};
+    rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse) {};
+    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse) {};
+    rpc GetAllProducts(GetAllProductsRequest) returns (GetAllProductsResponse) {};
+}
