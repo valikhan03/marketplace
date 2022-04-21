@@ -1,0 +1,1 @@
+gen_proto: protoc --proto_path=protobuf protobuf/*.proto --go-grpc_out=.
