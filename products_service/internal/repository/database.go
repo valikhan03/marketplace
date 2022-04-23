@@ -18,7 +18,8 @@ func NewRepository(db *sqlx.DB) *Repository{
 	}
 }
 
-func (r *Repository) CreateProduct(ctx context.Context, product *models.CreateProduct) (id string, err error)
+func (r *Repository) CreateProduct(ctx context.Context, product *models.CreateProductRequest) (id string, err error)
 func (r *Repository) UpdateProduct(ctx context.Context, product *models.Product) (status string, err error)
 func (r *Repository) DeleteProduct(ctx context.Context, id string) (status string, err error)
-func (r *Repository) GetProducts()
+func (r *Repository) GetProductsBySellerID(ctx context.Context, sellerID string) (products []*models.Product, err error)
+func (r *Repository) GetProductByID(ctx context.Context, id string) (product *models.Product, err error)

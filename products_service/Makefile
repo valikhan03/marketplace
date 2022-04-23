@@ -1,1 +1,1 @@
-gen_proto: protoc --proto_path=protobuf protobuf/*.proto --go-grpc_out=.
+gen_proto: protoc -I ./internal/protobuf --go_out=. --go-grpc_out=. internal/protobuf/product_service.proto

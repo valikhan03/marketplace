@@ -21,6 +21,7 @@ message CreateProductRequest{
     repeated string categories = 3;
     repeated string photos = 4;
     int32 price = 5;
+    string seller_id = 6;
 };
 
 message CreateProductResponse{
@@ -47,18 +48,30 @@ message DeleteProductResponse{
 
 
 message GetAllProductsRequest{
-   
+   string seller_id = 1;
 }
 
 message GetAllProductsResponse{
-
+    repeated Product products = 1;
 }
 
 
+message  GetProductByIDRequest {
+    string id = 1;
+}
+
+message GetProductByIDResponse {
+    Product product = 1;
+}
 
 service ProductsService{
-    rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {};
-    rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse) {};
-    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse) {};
-    rpc GetAllProducts(GetAllProductsRequest) returns (GetAllProductsResponse) {};
+    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse) {};
+
+    rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse) {};
+    
+    rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse) {};
+    
+    rpc GetAllProducts (GetAllProductsRequest) returns (GetAllProductsResponse) {};
+    
+    rpc GetProductByID (GetProductByIDRequest) returns (GetProductByIDResponse) {};
 }

@@ -4,7 +4,7 @@ import(
 	"products_service/internal/pb"
 )
 
-type CreateProduct struct{
+type CreateProductRequest struct{
 	Title string
 	Description string
 	Categories []string
@@ -13,8 +13,8 @@ type CreateProduct struct{
 	SellerID string
 }
 
-func MarshalCreateProductRequest(p *pb.CreateProductRequest) *CreateProduct {
-	return &CreateProduct{
+func MarshalCreateProductRequest(p *pb.CreateProductRequest) *CreateProductRequest {
+	return &CreateProductRequest{
 		Title: p.Title,
 		Description: p.Description,
 		Categories: p.Categories,
