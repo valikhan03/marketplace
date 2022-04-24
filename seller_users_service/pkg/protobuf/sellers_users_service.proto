@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package protobuf;
 
-option go_package = "/pb";
+option go_package = "/pkg/pb";
 
 
 //SIGN UP
@@ -17,9 +17,9 @@ message SignUpRequest {
 
 message SignUpResponse {
     enum status{
-        SIGNED_UP=1;
-        WRONG_DATA = 2;
-        COMPANY_ALREADY_EXISTS = 3;
+        SIGNED_UP = 0;
+        WRONG_DATA = 1;
+        COMPANY_ALREADY_EXISTS = 2;
     }
 }
 
@@ -31,13 +31,13 @@ message SignInRequest{
 }
 
 message SignInResponse {
-    string token = 1;
+    string access_token = 1;
 }
 
 
 //ACCOUNT DATA
 message AccountDataRequest {
-    string token = 1;
+    string access_token = 1;
 }
 
 message AccountDataResponse {
@@ -51,10 +51,8 @@ message AccountDataResponse {
 
 //CHECK ACCESS
 message CheckAccessRequest {
-    string token = 1;
-    enum resource{
-
-    }
+    string access_token = 1;
+    //enum resource{}
 }
 
 message CheckAccessResponse{

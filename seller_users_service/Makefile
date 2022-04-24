@@ -1,0 +1,1 @@
+gen_proto: protoc -I ./pkg/protobuf --go_out=./pkg --go-grpc_out=. pkg/protobuf/sellers_users_service.proto
