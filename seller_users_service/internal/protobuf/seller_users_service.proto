@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "/pb";
+
+
+//SIGN UP
+message SignUpRequest {
+    string company_name = 1;
+    string company_type = 2;
+    string business_id = 3;
+    repeated string phone_nums = 4;
+    string email = 5;
+    string password = 6;
+}
+
+message SignUpResponse {
+    enum status{
+        SIGNED_UP=1;
+        WRONG_DATA = 2;
+        COMPANY_ALREADY_EXISTS = 3;
+    }
+}
+
+
+//SIGN IN
+message SignInRequest{
+    string business_id = 1;
+    string password = 2;
+}
+
+message SignInResponse {
+    string token = 1;
+}
+
+
+//ACCOUNT DATA
+message AccountDataRequest {
+    string token = 1;
+}
+
+message AccountDataResponse {
+    string company_name = 1;
+    string company_type = 2;
+    string business_id = 3;
+    repeated string phone_nums = 4;
+    string email = 5;
+}
+
+
+//CHECK ACCESS
+message CheckAccessRequest {
+    string token = 1;
+    enum resource{
+
+    }
+}
+
+message CheckAccessResponse{
+    enum access_status{
+        FORBIDDEN = 0;
+        SESSION_EXPIRED = 1;
+        SUCCESS = 2;
+    }
+}
+
+
+service SellersUsersService{
+    rpc SignUp (SignUpRequest) returns (SignUpResponse) {};
+
+    rpc SignIn (SignInRequest) returns (SignInResponse) {};
+
+    rpc AccoundData (AccountDataRequest) returns (AccountDataResponse) {};
+
+    rpc CheckAccess (CheckAccessRequest) returns (CheckAccessResponse) {};
+}
