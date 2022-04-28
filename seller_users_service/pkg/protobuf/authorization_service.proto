@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "/pkg/pb";
+
+//AUTHORIZATION
+message AuthorizationRequest {
+    string token = 1;
+}
+
+enum authorization_status{
+    FORBIDDEN = 0;
+    VERIFIED = 1;
+}
+
+message AuthorizationResponse{
+    authorization_status status = 1;
+}
+
+service AuthService{
+    rpc AuthorizeUser (AuthorizationRequest) returns (AuthorizationResponse) {};
+}

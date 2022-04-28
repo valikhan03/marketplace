@@ -20,8 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type SellersUsersServiceClient interface {
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
 	SignIn(ctx context.Context, in *SignInRequest, opts ...grpc.CallOption) (*SignInResponse, error)
-	AccoundData(ctx context.Context, in *AccountDataRequest, opts ...grpc.CallOption) (*AccountDataResponse, error)
-	CheckAccess(ctx context.Context, in *CheckAccessRequest, opts ...grpc.CallOption) (*CheckAccessResponse, error)
+	CompanyInfo(ctx context.Context, in *CompanyInfoRequest, opts ...grpc.CallOption) (*CompanyInfoResponse, error)
 }
 
 type sellersUsersServiceClient struct {
@@ -50,18 +49,9 @@ func (c *sellersUsersServiceClient) SignIn(ctx context.Context, in *SignInReques
 	return out, nil
 }
 
-func (c *sellersUsersServiceClient) AccoundData(ctx context.Context, in *AccountDataRequest, opts ...grpc.CallOption) (*AccountDataResponse, error) {
-	out := new(AccountDataResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.SellersUsersService/AccoundData", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *sellersUsersServiceClient) CheckAccess(ctx context.Context, in *CheckAccessRequest, opts ...grpc.CallOption) (*CheckAccessResponse, error) {
-	out := new(CheckAccessResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.SellersUsersService/CheckAccess", in, out, opts...)
+func (c *sellersUsersServiceClient) CompanyInfo(ctx context.Context, in *CompanyInfoRequest, opts ...grpc.CallOption) (*CompanyInfoResponse, error) {
+	out := new(CompanyInfoResponse)
+	err := c.cc.Invoke(ctx, "/protobuf.SellersUsersService/CompanyInfo", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +64,7 @@ func (c *sellersUsersServiceClient) CheckAccess(ctx context.Context, in *CheckAc
 type SellersUsersServiceServer interface {
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
 	SignIn(context.Context, *SignInRequest) (*SignInResponse, error)
-	AccoundData(context.Context, *AccountDataRequest) (*AccountDataResponse, error)
-	CheckAccess(context.Context, *CheckAccessRequest) (*CheckAccessResponse, error)
+	CompanyInfo(context.Context, *CompanyInfoRequest) (*CompanyInfoResponse, error)
 	mustEmbedUnimplementedSellersUsersServiceServer()
 }
 
@@ -89,11 +78,8 @@ func (UnimplementedSellersUsersServiceServer) SignUp(context.Context, *SignUpReq
 func (UnimplementedSellersUsersServiceServer) SignIn(context.Context, *SignInRequest) (*SignInResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignIn not implemented")
 }
-func (UnimplementedSellersUsersServiceServer) AccoundData(context.Context, *AccountDataRequest) (*AccountDataResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AccoundData not implemented")
-}
-func (UnimplementedSellersUsersServiceServer) CheckAccess(context.Context, *CheckAccessRequest) (*CheckAccessResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckAccess not implemented")
+func (UnimplementedSellersUsersServiceServer) CompanyInfo(context.Context, *CompanyInfoRequest) (*CompanyInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompanyInfo not implemented")
 }
 func (UnimplementedSellersUsersServiceServer) mustEmbedUnimplementedSellersUsersServiceServer() {}
 
@@ -144,38 +130,20 @@ func _SellersUsersService_SignIn_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SellersUsersService_AccoundData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AccountDataRequest)
+func _SellersUsersService_CompanyInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompanyInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SellersUsersServiceServer).AccoundData(ctx, in)
+		return srv.(SellersUsersServiceServer).CompanyInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.SellersUsersService/AccoundData",
+		FullMethod: "/protobuf.SellersUsersService/CompanyInfo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SellersUsersServiceServer).AccoundData(ctx, req.(*AccountDataRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SellersUsersService_CheckAccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckAccessRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SellersUsersServiceServer).CheckAccess(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.SellersUsersService/CheckAccess",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SellersUsersServiceServer).CheckAccess(ctx, req.(*CheckAccessRequest))
+		return srv.(SellersUsersServiceServer).CompanyInfo(ctx, req.(*CompanyInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -196,12 +164,8 @@ var SellersUsersService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SellersUsersService_SignIn_Handler,
 		},
 		{
-			MethodName: "AccoundData",
-			Handler:    _SellersUsersService_AccoundData_Handler,
-		},
-		{
-			MethodName: "CheckAccess",
-			Handler:    _SellersUsersService_CheckAccess_Handler,
+			MethodName: "CompanyInfo",
+			Handler:    _SellersUsersService_CompanyInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

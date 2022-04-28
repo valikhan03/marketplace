@@ -15,12 +15,16 @@ message SignUpRequest {
     string password = 6;
 }
 
+
+enum sign_up_status{
+    SIGNED_UP = 0;
+    WRONG_DATA = 1;
+    COMPANY_ALREADY_EXISTS = 2;
+}
+
 message SignUpResponse {
-    enum status{
-        SIGNED_UP = 0;
-        WRONG_DATA = 1;
-        COMPANY_ALREADY_EXISTS = 2;
-    }
+    sign_up_status status = 1;
+    string info = 2;
 }
 
 
@@ -35,12 +39,14 @@ message SignInResponse {
 }
 
 
-//ACCOUNT DATA
-message AccountDataRequest {
-    string access_token = 1;
+
+
+//COMPANY DATA
+message CompanyInfoRequest {
+    string business_id = 1;
 }
 
-message AccountDataResponse {
+message CompanyInfoResponse {
     string company_name = 1;
     string company_type = 2;
     string business_id = 3;
@@ -49,27 +55,10 @@ message AccountDataResponse {
 }
 
 
-//CHECK ACCESS
-message CheckAccessRequest {
-    string access_token = 1;
-    //enum resource{}
-}
-
-message CheckAccessResponse{
-    enum access_status{
-        FORBIDDEN = 0;
-        SESSION_EXPIRED = 1;
-        SUCCESS = 2;
-    }
-}
-
-
 service SellersUsersService{
     rpc SignUp (SignUpRequest) returns (SignUpResponse) {};
 
     rpc SignIn (SignInRequest) returns (SignInResponse) {};
 
-    rpc AccoundData (AccountDataRequest) returns (AccountDataResponse) {};
-
-    rpc CheckAccess (CheckAccessRequest) returns (CheckAccessResponse) {};
+    rpc CompanyInfo (CompanyInfoRequest) returns (CompanyInfoResponse) {};
 }
