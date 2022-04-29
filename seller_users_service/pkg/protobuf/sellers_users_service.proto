@@ -23,22 +23,9 @@ enum sign_up_status{
 }
 
 message SignUpResponse {
-    sign_up_status status = 1;
+    sign_up_status sign_up_status = 1;
     string info = 2;
 }
-
-
-//SIGN IN
-message SignInRequest{
-    string business_id = 1;
-    string password = 2;
-}
-
-message SignInResponse {
-    string access_token = 1;
-}
-
-
 
 
 //COMPANY DATA
@@ -57,8 +44,6 @@ message CompanyInfoResponse {
 
 service SellersUsersService{
     rpc SignUp (SignUpRequest) returns (SignUpResponse) {};
-
-    rpc SignIn (SignInRequest) returns (SignInResponse) {};
 
     rpc CompanyInfo (CompanyInfoRequest) returns (CompanyInfoResponse) {};
 }

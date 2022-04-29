@@ -11,15 +11,13 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
-const _ = grpc.SupportPackageIsVersion7
+const _ = grpc.SupportPackageIsVersion6
 
 // SellersUsersServiceClient is the client API for SellersUsersService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SellersUsersServiceClient interface {
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*SignUpResponse, error)
-	SignIn(ctx context.Context, in *SignInRequest, opts ...grpc.CallOption) (*SignInResponse, error)
 	CompanyInfo(ctx context.Context, in *CompanyInfoRequest, opts ...grpc.CallOption) (*CompanyInfoResponse, error)
 }
 
@@ -40,15 +38,6 @@ func (c *sellersUsersServiceClient) SignUp(ctx context.Context, in *SignUpReques
 	return out, nil
 }
 
-func (c *sellersUsersServiceClient) SignIn(ctx context.Context, in *SignInRequest, opts ...grpc.CallOption) (*SignInResponse, error) {
-	out := new(SignInResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.SellersUsersService/SignIn", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *sellersUsersServiceClient) CompanyInfo(ctx context.Context, in *CompanyInfoRequest, opts ...grpc.CallOption) (*CompanyInfoResponse, error) {
 	out := new(CompanyInfoResponse)
 	err := c.cc.Invoke(ctx, "/protobuf.SellersUsersService/CompanyInfo", in, out, opts...)
@@ -59,39 +48,24 @@ func (c *sellersUsersServiceClient) CompanyInfo(ctx context.Context, in *Company
 }
 
 // SellersUsersServiceServer is the server API for SellersUsersService service.
-// All implementations must embed UnimplementedSellersUsersServiceServer
-// for forward compatibility
 type SellersUsersServiceServer interface {
 	SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error)
-	SignIn(context.Context, *SignInRequest) (*SignInResponse, error)
 	CompanyInfo(context.Context, *CompanyInfoRequest) (*CompanyInfoResponse, error)
-	mustEmbedUnimplementedSellersUsersServiceServer()
 }
 
-// UnimplementedSellersUsersServiceServer must be embedded to have forward compatible implementations.
+// UnimplementedSellersUsersServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedSellersUsersServiceServer struct {
 }
 
-func (UnimplementedSellersUsersServiceServer) SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error) {
+func (*UnimplementedSellersUsersServiceServer) SignUp(context.Context, *SignUpRequest) (*SignUpResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
 }
-func (UnimplementedSellersUsersServiceServer) SignIn(context.Context, *SignInRequest) (*SignInResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SignIn not implemented")
-}
-func (UnimplementedSellersUsersServiceServer) CompanyInfo(context.Context, *CompanyInfoRequest) (*CompanyInfoResponse, error) {
+func (*UnimplementedSellersUsersServiceServer) CompanyInfo(context.Context, *CompanyInfoRequest) (*CompanyInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompanyInfo not implemented")
 }
-func (UnimplementedSellersUsersServiceServer) mustEmbedUnimplementedSellersUsersServiceServer() {}
 
-// UnsafeSellersUsersServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SellersUsersServiceServer will
-// result in compilation errors.
-type UnsafeSellersUsersServiceServer interface {
-	mustEmbedUnimplementedSellersUsersServiceServer()
-}
-
-func RegisterSellersUsersServiceServer(s grpc.ServiceRegistrar, srv SellersUsersServiceServer) {
-	s.RegisterService(&SellersUsersService_ServiceDesc, srv)
+func RegisterSellersUsersServiceServer(s *grpc.Server, srv SellersUsersServiceServer) {
+	s.RegisterService(&_SellersUsersService_serviceDesc, srv)
 }
 
 func _SellersUsersService_SignUp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -108,24 +82,6 @@ func _SellersUsersService_SignUp_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SellersUsersServiceServer).SignUp(ctx, req.(*SignUpRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SellersUsersService_SignIn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SignInRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SellersUsersServiceServer).SignIn(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.SellersUsersService/SignIn",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SellersUsersServiceServer).SignIn(ctx, req.(*SignInRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -148,20 +104,13 @@ func _SellersUsersService_CompanyInfo_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-// SellersUsersService_ServiceDesc is the grpc.ServiceDesc for SellersUsersService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var SellersUsersService_ServiceDesc = grpc.ServiceDesc{
+var _SellersUsersService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "protobuf.SellersUsersService",
 	HandlerType: (*SellersUsersServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "SignUp",
 			Handler:    _SellersUsersService_SignUp_Handler,
-		},
-		{
-			MethodName: "SignIn",
-			Handler:    _SellersUsersService_SignIn_Handler,
 		},
 		{
 			MethodName: "CompanyInfo",

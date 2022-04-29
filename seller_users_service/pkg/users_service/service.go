@@ -3,13 +3,18 @@ package service
 import (
 	"time"
 	"context"
-	"errors"
+	"log"
+
+	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	"sellers_users_service/pkg/models"
 	"sellers_users_service/pkg/pb"
 )
 
 type Service struct {
-	repository RepositoryIntercase
+	repository RepositoryInterface
 	signingKey string
 	expireTime time.Duration
 }
@@ -17,20 +22,20 @@ type Service struct {
 func (s *Service) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.SignUpResponse, error) {
 	hash, err := hashPassword(req.Password)
 	if err != nil {
-		return nil, errors.New("unable to provide security")
+		return nil, status.Errorf(codes.Internal, "internal error")
 	}
 	req.Password = hash
 
-	status, err := s.repository.RegisterCompany(ctx, req)
+	signupStatus, err := s.repository.RegisterCompany(ctx, req)
 	if err != nil {
-		return nil, errors.New("DB ERROR")
+		return nil, status.Errorf(codes.Internal, "internal error")
 	}
 
 	res := &pb.SignUpResponse{
-		Status: status,
+		SignUpStatus: signupStatus,
 	}
 
-	switch status {
+	switch signupStatus {
 	case pb.SignUpStatus_SIGNED_UP:
 		res.Info = "Your business account successfully registered!"
 	case pb.SignUpStatus_WRONG_DATA:
@@ -44,27 +49,10 @@ func (s *Service) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.SignUp
 	return res, nil
 }
 
-func (s *Service) SignIn(ctx context.Context, req *pb.SignInRequest) (*pb.SignInResponse, error) {
-	hashedPassword, _ := hashPassword(req.GetPassword())
-
-	if s.repository.CheckAuthData(ctx, req.GetBusinessId(), hashedPassword) {
-		token, err := s.auth.GenerateToken(req.BusinessId)
-		if err != nil {
-			return nil, err
-		}
-
-		return &pb.SignInResponse{
-			AccessToken: token,
-		}, nil
-	} else {
-		return nil, errors.New("Authorization failed")
-	}
-}
-
 func (s *Service) CompanyInfo(ctx context.Context, req *pb.CompanyInfoRequest) (*pb.CompanyInfoResponse, error) {
 	info, err := s.repository.GetCompanyInfo(ctx, req.GetBusinessId())
 	if err != nil {
-		return nil, errors.New("DB ERROR")
+		return nil, status.Errorf(codes.Internal, "internal error")
 	}
 
 	return &pb.CompanyInfoResponse{
@@ -77,10 +65,21 @@ func (s *Service) CompanyInfo(ctx context.Context, req *pb.CompanyInfoRequest) (
 }
 
 
+func hashPassword(password string) (string, error) {
+	hashByte, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
+	return string(hashByte), err
+}
+
+
 
 func (s *Service) mustEmbedUnimplementedSellersUsersServiceServer() {}
 
-type RepositoryIntercase interface {
-	RegisterCompany(ctx context.Context, data *pb.SignUpRequest) (status pb.SignUpStatus, err error)
+type RepositoryInterface interface {
+	RegisterCompany(ctx context.Context, data *pb.SignUpRequest) (pb.SignUpStatus, error)
 	GetCompanyInfo(ctx context.Context, id string) (models.CompanyInfo, error)
 }
