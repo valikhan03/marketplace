@@ -1,7 +1,6 @@
 package service
 
 import (
-	"time"
 	"context"
 	"log"
 
@@ -15,8 +14,12 @@ import (
 
 type Service struct {
 	repository RepositoryInterface
-	signingKey string
-	expireTime time.Duration
+}
+
+func NewService(repos RepositoryInterface) *Service{
+	return &Service{
+		repository: repos,
+	}
 }
 
 func (s *Service) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.SignUpResponse, error) {
@@ -75,11 +78,9 @@ func hashPassword(password string) (string, error) {
 	return string(hashByte), err
 }
 
-
-
 func (s *Service) mustEmbedUnimplementedSellersUsersServiceServer() {}
 
 type RepositoryInterface interface {
 	RegisterCompany(ctx context.Context, data *pb.SignUpRequest) (pb.SignUpStatus, error)
-	GetCompanyInfo(ctx context.Context, id string) (models.CompanyInfo, error)
+	GetCompanyInfo(ctx context.Context, id string) (*models.CompanyInfo, error)
 }
