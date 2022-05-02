@@ -59,7 +59,7 @@ func initDB() *sqlx.DB {
 func ReadPostgresConfigs() string {
 	var confs PostgresConfigs
 
-	file, err := os.Open("configs/postgres.yaml")
+	file, err := os.Open("config/configs.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}
