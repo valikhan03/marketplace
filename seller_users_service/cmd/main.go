@@ -41,11 +41,11 @@ func main() {
 }	
 
 type PostgresConfigs struct {
-	Host    string `yaml:"host"`
-	Port    string `yaml:"port"`
-	User    string `yaml:"user"`
-	DBName  string `yaml:"dbname"`
-	SSLMode string `yaml:"sslmode"`
+	Host    string `yaml:"db.host"`
+	Port    string `yaml:"db.port"`
+	User    string `yaml:"db.user"`
+	DBName  string `yaml:"db.dbname"`
+	SSLMode string `yaml:"db.sslmode"`
 }
 
 func initDB() *sqlx.DB {
