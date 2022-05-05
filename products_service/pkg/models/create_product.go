@@ -1,7 +1,7 @@
 package models
 
 import(
-	"products_service/internal/pb"
+	"products_service/pkg/pb"
 )
 
 type CreateProductRequest struct{

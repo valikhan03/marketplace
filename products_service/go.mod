@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/jackc/pgx v3.6.2+incompatible // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
@@ -15,4 +16,5 @@ require (
 	google.golang.org/genproto v0.0.0-20220420195807-44278fea765b // indirect
 	google.golang.org/grpc v1.45.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

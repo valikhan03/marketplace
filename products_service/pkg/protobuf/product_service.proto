@@ -33,8 +33,13 @@ message UpdateProductRequest{
     Product product = 1;
 }
 
+enum update_product_status{
+    UNABLE_TO_UPDATE = 0;
+    UPDATED = 1;
+}
+
 message UpdateProductResponse{
-    string status = 1;
+    update_product_status update_status = 1;
 }
 
 
@@ -42,8 +47,13 @@ message DeleteProductRequest{
     string product_id = 1;
 }
 
+enum delete_product_status{
+    UNABLE_TO_DELETE = 0;
+    DELETED = 1;
+}
+
 message DeleteProductResponse{
-    string status = 2;
+    delete_product_status delete_status = 1;
 }
 
 
@@ -57,7 +67,7 @@ message GetAllProductsResponse{
 
 
 message  GetProductByIDRequest {
-    string id = 1;
+    string product_id = 1;
 }
 
 message GetProductByIDResponse {
