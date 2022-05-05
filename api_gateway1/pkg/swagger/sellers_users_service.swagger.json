@@ -1,0 +1,181 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "sellers_users_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "SellersUsersService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/companies/{businessId}": {
+      "get": {
+        "operationId": "SellersUsersService_CompanyInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protobufCompanyInfoResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "businessId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SellersUsersService"
+        ]
+      }
+    },
+    "/v1/sign-up": {
+      "post": {
+        "operationId": "SellersUsersService_SignUp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protobufSignUpResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protobufSignUpRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SellersUsersService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "protobufCompanyInfoResponse": {
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string"
+        },
+        "companyType": {
+          "type": "string"
+        },
+        "businessId": {
+          "type": "string"
+        },
+        "phoneNums": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufSignUpRequest": {
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string"
+        },
+        "companyType": {
+          "type": "string"
+        },
+        "businessId": {
+          "type": "string"
+        },
+        "phoneNums": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "SIGN UP"
+    },
+    "protobufSignUpResponse": {
+      "type": "object",
+      "properties": {
+        "signUpStatus": {
+          "$ref": "#/definitions/protobufsign_up_status"
+        },
+        "info": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufsign_up_status": {
+      "type": "string",
+      "enum": [
+        "SIGNED_UP",
+        "WRONG_DATA",
+        "COMPANY_ALREADY_EXISTS"
+      ],
+      "default": "SIGNED_UP"
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

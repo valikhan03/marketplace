@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "google/api/annotations.proto";
+
+option go_package = "/pkg/pb/users_service";
+
+
+//SIGN UP
+message SignUpRequest {
+    string company_name = 1;
+    string company_type = 2;
+    string business_id = 3;
+    repeated string phone_nums = 4;
+    string email = 5;
+    string password = 6;
+}
+
+
+enum sign_up_status{
+    SIGNED_UP = 0;
+    WRONG_DATA = 1;
+    COMPANY_ALREADY_EXISTS = 2;
+}
+
+message SignUpResponse {
+    sign_up_status sign_up_status = 1;
+    string info = 2;
+}
+
+
+//COMPANY DATA
+message CompanyInfoRequest {
+    string business_id = 1;
+}
+
+message CompanyInfoResponse {
+    string company_name = 1;
+    string company_type = 2;
+    string business_id = 3;
+    repeated string phone_nums = 4;
+    string email = 5;
+}
+
+
+service SellersUsersService{
+    rpc SignUp (SignUpRequest) returns (SignUpResponse) {
+        option (google.api.http) = {
+            post: "/v1/sign-up"
+            body: "*"
+        };
+    };
+
+    rpc CompanyInfo (CompanyInfoRequest) returns (CompanyInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/companies/{business_id}"
+        };
+    };
+}

@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "google/api/annotations.proto";
+
+option go_package="/pkg/pb/products_service";
+
+message Product{
+    string id = 1;
+    string title = 2;
+    string description = 3;
+    repeated string categories = 4;
+    repeated string photos = 5;
+    int32 price = 6;
+    string seller_id = 7;
+}
+
+
+message CreateProductRequest{
+    string title = 1;
+    string description = 2;
+    repeated string categories = 3;
+    repeated string photos = 4;
+    int32 price = 5;
+    string seller_id = 6;
+};
+
+message CreateProductResponse{
+    string id = 1;
+}
+
+
+message UpdateProductRequest{
+    Product product = 1;
+}
+
+enum update_product_status{
+    UNABLE_TO_UPDATE = 0;
+    UPDATED = 1;
+}
+
+message UpdateProductResponse{
+    update_product_status update_status = 1;
+}
+
+
+message DeleteProductRequest{
+    string product_id = 1;
+}
+
+enum delete_product_status{
+    UNABLE_TO_DELETE = 0;
+    DELETED = 1;
+}
+
+message DeleteProductResponse{
+    delete_product_status delete_status = 1;
+}
+
+
+message GetAllProductsRequest{
+   string seller_id = 1;
+}
+
+message GetAllProductsResponse{
+    repeated Product products = 1;
+}
+
+
+message  GetProductByIDRequest {
+    string product_id = 1;
+}
+
+message GetProductByIDResponse {
+    Product product = 1;
+}
+
+service ProductsService{
+    rpc CreateProduct (CreateProductRequest) returns (CreateProductResponse) {
+        option (google.api.http) = {
+            post: "/v1/products"
+            body: "*"
+        };
+    };
+
+    rpc UpdateProduct (UpdateProductRequest) returns (UpdateProductResponse) {
+        option (google.api.http) = {
+            put: "/v1/products"
+            body: "*"
+        };
+    };
+    
+    rpc DeleteProduct (DeleteProductRequest) returns (DeleteProductResponse) {
+        option (google.api.http) = {
+            delete: "/v1/products/{product_id}"
+        };
+    };
+    
+    rpc GetAllProducts (GetAllProductsRequest) returns (GetAllProductsResponse) {
+        option (google.api.http) = {
+            get: "/v1/products"
+        };
+    };
+    
+    rpc GetProductByID (GetProductByIDRequest) returns (GetProductByIDResponse) {
+        option (google.api.http) = {
+            get: "/v1/products/{product_id}"
+        };
+    };
+}

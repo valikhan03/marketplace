@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package protobuf;
+
+import "google/api/annotations.proto";
+
+option go_package = "/pkg/pb/auth_service";
+
+//AUTHORIZATION
+message AuthorizationRequest {
+    string token = 1;
+}
+
+enum authorization_status{
+    FORBIDDEN = 0;
+    VERIFIED = 1;
+}
+
+message AuthorizationResponse{
+    authorization_status auth_status = 1;
+}
+
+
+//SIGN IN
+message SignInRequest{
+    string business_id = 1;
+    string password = 2;
+}
+
+message SignInResponse {
+    string access_token = 1;
+}
+
+
+service AuthService{
+    rpc AuthorizeUser (AuthorizationRequest) returns (AuthorizationResponse) {};
+
+    rpc SignIn (SignInRequest) returns (SignInResponse) {
+        option (google.api.http) = {
+            post: "/v1/sign-in"
+            body: "*"
+        };
+    };
+}
