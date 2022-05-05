@@ -1,0 +1,10 @@
+redis:
+  host: 127.0.0.1
+  port: 6379
+
+db:
+  host: localhost
+  port: 5432
+  user: postgres
+  dbname: postgres
+  sslmode: disable

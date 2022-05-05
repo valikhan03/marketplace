@@ -51,11 +51,11 @@ func (r *Repository) InitSession(ctx context.Context, business_id, token string)
 }
 
 func (r *Repository) CheckSession(ctx context.Context, business_id, token string) (pb.AuthorizationStatus, error) {
-	res := r.redisClient.Get(ctx, business_id)
-	if res.Err() != nil{
-		return -1, res.Err()
+	res, err := r.redisClient.Get(ctx, business_id).Result()
+	if err != nil{
+		return -1, err
 	}
-	if res.Val() == token{
+	if res == token{
 		return pb.AuthorizationStatus_VERIFIED, nil
 	}else{
 		return pb.AuthorizationStatus_FORBIDDEN, nil
